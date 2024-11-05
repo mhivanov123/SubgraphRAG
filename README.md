@@ -19,7 +19,7 @@ SubgraphRAG is a retrieval-and-reasoning pipeline for knowledge-graph-based retr
 
 ## Frequently Asked Questions (FQA)
 
-We welcome your feedback and appreciate your time! If you encounter bugs or have feature requests, please [open an issue](../../issues/new) or email us at `{mufei.li, siqi.miao}@gatech.edu`. Your input helps us improve and better serve the community!
+We welcome your feedback and sincerely appreciate your time! If you encounter bugs or have feature requests, you may [open an issue](../../issues/new) or email us at `{mufei.li, siqi.miao}@gatech.edu`. Your input helps us improve and better serve the community!
 
 ## Citation
 
