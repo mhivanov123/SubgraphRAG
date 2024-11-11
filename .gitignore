@@ -2,4 +2,4 @@
 wandb
 *.pth
 retrieve/data_files
-*.jsonl
+results/
