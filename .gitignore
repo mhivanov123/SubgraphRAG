@@ -2,4 +2,3 @@
 wandb
 *.pth
 retrieve/data_files
-results/
