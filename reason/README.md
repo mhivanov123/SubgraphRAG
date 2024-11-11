@@ -1,5 +1,8 @@
 # Stage 2: Reasoning
 
+## Installation
+The code is tested with `torch 2.4.0+cu121`, `vllm 0.5.5`, `openai 1.50.2` on `Python 3.10.14`. For other used packages, typically all recent versions should work.
+
 ## Inference with LLMs
 First put the retriver's results in `./scored_triples`, where we have provided our results for the sake of demonstration. You may need to install Git LFS to download the files due to their sizes.
 
