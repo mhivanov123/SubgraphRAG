@@ -4,7 +4,7 @@ import torch
 
 def main(args):
     pred_dict = torch.load(args.path)
-    gpt_triple_dict = torch.load(f'data_files/{args.dataset}/gpt_triples.pth')
+    #gpt_triple_dict = torch.load(f'data_files/{args.dataset}/gpt_triples.pth')
     k_list = [int(k) for k in args.k_list.split(',')]
     
     metric_dict = dict()
@@ -36,13 +36,13 @@ def main(args):
                     len(shortest_path_triples & triples_k) / len(shortest_path_triples)
                 )
         
-        gpt_triples = set(gpt_triple_dict.get(sample_id, []))
+        '''gpt_triples = set(gpt_triple_dict.get(sample_id, []))
         if len(gpt_triples) > 0:
             for k in k_list:
                 triples_k = set(triples[:k])
                 metric_dict[f'gpt_triple_recall@{k}'].append(
                     len(gpt_triples & triples_k) / len(gpt_triples)
-                )
+                )'''
 
     for metric, val in metric_dict.items():
         metric_dict[metric] = np.mean(val)
@@ -54,11 +54,13 @@ def main(args):
         ],
         'shortest_path_triple_recall': [
             round(metric_dict[f'shortest_path_triple_recall@{k}'], 3) for k in k_list
-        ],
+        ]
+    }
+    ''',
         'gpt_triple_recall': [
             round(metric_dict[f'gpt_triple_recall@{k}'], 3) for k in k_list
         ]
-    }
+        }'''
     df = pd.DataFrame(table_dict)
     print(df.to_string(index=False))
 
@@ -66,7 +68,7 @@ if __name__ == '__main__':
     from argparse import ArgumentParser
     parser = ArgumentParser()
     parser.add_argument('-d', '--dataset', type=str, required=True, 
-                        choices=['webqsp', 'cwq'], help='Dataset name')
+                        choices=['webqsp', 'cwq', 'metaqa'], help='Dataset name')
     parser.add_argument('-p', '--path', type=str, required=True,
                         help='Path to retrieval result')
     parser.add_argument('--k_list', type=str, default='50,100,200,400',

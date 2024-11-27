@@ -141,6 +141,9 @@ def main():
     elif dataset_name == "cwq":
         assert split == "test"
         score_dict_path = "./scored_triples/cwq_240907_unidir_test.pth"
+    elif dataset_name == "metaqa":
+        assert split == "test"
+        score_dict_path = ""
 
     raw_pred_folder_path = Path(f"./results/KGQA/{dataset_name}/SubgraphRAG/{args.model_name.split('/')[-1]}")
     raw_pred_folder_path.mkdir(parents=True, exist_ok=True)

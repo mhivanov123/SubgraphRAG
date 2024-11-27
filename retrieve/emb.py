@@ -1,7 +1,7 @@
 import os
 import torch
 
-from datasets import load_dataset
+from datasets import load_dataset, load_from_disk
 from tqdm import tqdm
 
 from src.config.emb import load_yaml
@@ -32,12 +32,21 @@ def main(args):
 
     if args.dataset == 'cwq':
         input_file = os.path.join('rmanluo', 'RoG-cwq')
+        train_set = load_dataset(input_file, split='train')
+        val_set = load_dataset(input_file, split='validation')
+        test_set = load_dataset(input_file, split='test')
+
+    elif args.dataset == 'metaqa':
+        #input_file = PLACEHOLDER
+        dataset = load_from_disk('data_files/metaqa/metaqa')
+        train_set = dataset['train']
+        val_set = dataset['validation']
+        test_set = dataset['test']
     else:
         input_file = os.path.join('ml1996', 'webqsp')
-
-    train_set = load_dataset(input_file, split='train')
-    val_set = load_dataset(input_file, split='validation')
-    test_set = load_dataset(input_file, split='test')
+        train_set = load_dataset(input_file, split='train')
+        val_set = load_dataset(input_file, split='validation')
+        test_set = load_dataset(input_file, split='test')
     
     entity_identifiers = []
     with open(config['entity_identifier_file'], 'r') as f:
@@ -86,7 +95,7 @@ if __name__ == '__main__':
     
     parser = ArgumentParser('Text Embedding Pre-Computation for Retrieval')
     parser.add_argument('-d', '--dataset', type=str, required=True, 
-                        choices=['webqsp', 'cwq'], help='Dataset name')
+                        choices=['webqsp', 'cwq', 'metaqa'], help='Dataset name')
     args = parser.parse_args()
     
     main(args)

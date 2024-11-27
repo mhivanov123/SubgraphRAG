@@ -8,13 +8,15 @@ class GTELargeEN:
                  device,
                  normalize=True):
         self.device = device
-        model_path = 'Alibaba-NLP/gte-large-en-v1.5'
-        self.tokenizer = AutoTokenizer.from_pretrained(model_path)
+        #model_path = 'Alibaba-NLP/gte-large-en-v1.5'
+        model_path = '/home/gridsan/mhadjiivanov/meng/SubgraphRAG/retrieve/src/model/text_encoders/hf_models/gte-large-en-v1.5'
+        self.tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True)
         self.model = AutoModel.from_pretrained(
             model_path,
             trust_remote_code=True,
             unpad_inputs=True,
-            use_memory_efficient_attention=True).to(device)
+            use_memory_efficient_attention=True,
+            local_files_only=True).to(device)
         self.normalize = normalize
 
     @torch.no_grad()

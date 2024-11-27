@@ -66,6 +66,16 @@ def eval_epoch(config, device, data_loader, model):
     
     return metric_dict
 
+def loss_func(pred_triple_logits, target_triple_probs, a_entity_id_list, h_id_tensor, t_id_tensor,device):
+    loss = F.binary_cross_entropy_with_logits(
+            pred_triple_logits, target_triple_probs)
+    
+    mask = torch.isin(t_id_tensor, torch.tensor(a_entity_id_list, device=device))
+    mask = mask.float()
+    dot_product = torch.dot(target_triple_probs.flatten(),torch.tensor(mask).to(device).flatten())
+
+    return loss + loss/dot_product
+
 def train_epoch(device, train_loader, model, optimizer):
     model.train()
     epoch_loss = 0
@@ -81,9 +91,11 @@ def train_epoch(device, train_loader, model, optimizer):
             h_id_tensor, r_id_tensor, t_id_tensor, q_emb, entity_embs,
             num_non_text_entities, relation_embs, topic_entity_one_hot)
         target_triple_probs = target_triple_probs.to(device).unsqueeze(-1)
-
-        loss = F.binary_cross_entropy_with_logits(
-            pred_triple_logits, target_triple_probs)
+        
+        '''loss = F.binary_cross_entropy_with_logits(
+            pred_triple_logits, target_triple_probs)'''
+        loss = loss_func(pred_triple_logits, target_triple_probs, a_entity_id_list, h_id_tensor, t_id_tensor,device)
+        
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
