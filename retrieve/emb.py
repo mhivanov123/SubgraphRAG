@@ -31,10 +31,14 @@ def main(args):
     torch.set_num_threads(config['env']['num_threads'])
 
     if args.dataset == 'cwq':
-        input_file = os.path.join('rmanluo', 'RoG-cwq')
+        dataset = load_from_disk('data_files/cwq/cwq')
+        train_set = dataset['train']
+        val_set = dataset['validation']
+        test_set = dataset['test']
+        '''input_file = os.path.join('rmanluo', 'RoG-cwq')
         train_set = load_dataset(input_file, split='train')
         val_set = load_dataset(input_file, split='validation')
-        test_set = load_dataset(input_file, split='test')
+        test_set = load_dataset(input_file, split='test')'''
 
     elif args.dataset == 'metaqa':
         #input_file = PLACEHOLDER
@@ -43,10 +47,14 @@ def main(args):
         val_set = dataset['validation']
         test_set = dataset['test']
     else:
-        input_file = os.path.join('ml1996', 'webqsp')
+        dataset = load_from_disk('data_files/webqsp/webqsp')
+        train_set = dataset['train']
+        val_set = dataset['validation']
+        test_set = dataset['test']
+        '''input_file = os.path.join('ml1996', 'webqsp')
         train_set = load_dataset(input_file, split='train')
         val_set = load_dataset(input_file, split='validation')
-        test_set = load_dataset(input_file, split='test')
+        test_set = load_dataset(input_file, split='test')'''
     
     entity_identifiers = []
     with open(config['entity_identifier_file'], 'r') as f:

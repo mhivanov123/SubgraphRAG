@@ -13,6 +13,6 @@ echo "starting experiment"
 export WANDB_API_KEY="b1cf013fa15f74b678f33b1c935f969a8fef57ae"
 WANDB_MODE=offline
 
-python inference.py -p metaqa_Nov23-02:01:19/cpt.pth
+python inference.py -p cwq_Jan04-01:33:49/cpt.pth
 
 echo "done"

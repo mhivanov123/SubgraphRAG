@@ -13,6 +13,7 @@ from llm_utils import llm_init, llm_inf_all
 from metrics.evaluate_results_corrected import eval_results as eval_results_corrected
 from metrics.evaluate_results import eval_results as eval_results_original
 
+wandb.init(mode='disabled')
 
 def get_defined_prompts(prompt_mode, model_name, llm_mode):
     if 'gpt' in model_name or 'gpt' in prompt_mode:
@@ -105,6 +106,7 @@ def main():
     parser = argparse.ArgumentParser(description="RAG for KGQA")
     parser.add_argument("-d", "--dataset_name", type=str, default="cwq", help="Dataset name")
     parser.add_argument("--prompt_mode", type=str, default="scored_100", help="Prompt mode")
+    parser.add_argument("-p", "--score_dict_path", type=str)
     parser.add_argument("--llm_mode", type=str, default="sys_icl_dc", help="LLM mode")
     parser.add_argument("-m", "--model_name", type=str, default="meta-llama/Meta-Llama-3.1-8B-Instruct", help="Model name")
     # parser.add_argument("--model_name", type=str, default="gpt-4o", help="Model name")
@@ -133,18 +135,23 @@ def main():
 
     pred_file_path = f"./results/KGQA/{dataset_name}/RoG/{split}/results_gen_rule_path_RoG-{dataset_name}_RoG_{split}_predictions_3_False_jsonl/predictions.jsonl"
     run_name = f"{model_name}-{prompt_mode}-{llm_mode}-{frequency_penalty}-thres_{thres}-{split}"
-    run = wandb.init(project=f"RAG-{dataset_name}", name=run_name, config=args)
+    run = wandb.init(project=f"RAG-{dataset_name}", name=run_name, config=args,mode='disabled')
 
-    if dataset_name == "webqsp":
-        assert split == "test"
-        score_dict_path = "./scored_triples/webqsp_240912_unidir_test.pth"
-    elif dataset_name == "cwq":
-        assert split == "test"
-        score_dict_path = "./scored_triples/cwq_240907_unidir_test.pth"
-    elif dataset_name == "metaqa":
-        assert split == "test"
-        score_dict_path = ""
+    if args.score_dict_path is None:
+        if dataset_name == "webqsp":
+            assert split == "test"
+            score_dict_path = "./scored_triples/webqsp_240912_unidir_test.pth"
+        elif dataset_name == "cwq":
+            assert split == "test"
+            score_dict_path = "./scored_triples/cwq_240907_unidir_test.pth"
 
+        elif dataset_name == "metaqa":
+            assert split == "test"
+            score_dict_path = ""
+    else:
+        score_dict_path = args.score_dict_path
+
+    
     raw_pred_folder_path = Path(f"./results/KGQA/{dataset_name}/SubgraphRAG/{args.model_name.split('/')[-1]}")
     raw_pred_folder_path.mkdir(parents=True, exist_ok=True)
     raw_pred_file_path = raw_pred_folder_path / f"{prompt_mode}-{llm_mode}-{frequency_penalty}-thres_{thres}-{split}-predictions-resume.jsonl"

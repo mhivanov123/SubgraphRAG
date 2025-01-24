@@ -4,11 +4,14 @@ import json
 import torch
 import numpy as np
 from tqdm import tqdm
-from datasets import load_dataset
+from datasets import load_dataset, load_from_disk
 from .prepare_prompts import unique_preserve_order
 
 
-def get_subgraphs(dataset_name, split):
+def get_subgraphs(dataset_name, split, file_path = None):
+    if file_path:
+        df = load_from_disk(file_path)
+        return df[split]
     input_file = os.path.join("rmanluo", f"RoG-{dataset_name}")
     return load_dataset(input_file, split=split)
 
@@ -112,7 +115,7 @@ def get_data(dataset_name, pred_file_path, score_dict_path, split, prompt_mode, 
         raw_data = [json.loads(line) for line in f]
 
     print("Loading subgraphs...")
-    subgraphs = get_subgraphs(dataset_name, split)
+    subgraphs = get_subgraphs(dataset_name, split, file_path=f"/home/gridsan/mhadjiivanov/meng/SubgraphRAG/retrieve/data_files/{dataset_name}/{dataset_name}")
 
     print("Adding subgraphs to data...")
     data = []

@@ -1,0 +1,11 @@
+starting experiment
+/home/gridsan/mhadjiivanov/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py:3504: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/home/gridsan/mhadjiivanov/.local/lib/python3.10/site-packages/numpy/core/_methods.py:129: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+  K  ans_recall  shortest_path_triple_recall
+ 50       0.866                        0.716
+100       0.917                        0.806
+200       0.954                        0.878
+400       0.981                        0.934
+done

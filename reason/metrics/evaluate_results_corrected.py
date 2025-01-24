@@ -300,7 +300,7 @@ def eval_results(predict_file, cal_f1=True, split=None, subset=False, bad_sample
                 for idx in range(len(answer)):
                     if '-' in answer[idx] and answer[idx].split('-')[0].isdigit():
                         answer[idx] = answer[idx].split('-')[0]
-
+            print(prediction)
             question = data['question']
             double_check = any([keyword in question.lower() for keyword in ['when', 'what year', 'which year', 'where', 'sport', "what countr", "language", 'nba finals', 'world series']])
             # double_check = any([keyword in question.lower() for keyword in ['when', 'what year', 'sport']])

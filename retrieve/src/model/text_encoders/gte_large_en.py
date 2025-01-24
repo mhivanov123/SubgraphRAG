@@ -15,7 +15,7 @@ class GTELargeEN:
             model_path,
             trust_remote_code=True,
             unpad_inputs=True,
-            use_memory_efficient_attention=True,
+            use_memory_efficient_attention=False,
             local_files_only=True).to(device)
         self.normalize = normalize
 
