@@ -117,13 +117,13 @@ def get_top_k(model, raw_sample, max_K):
     
     return sample_dict
 
-def raw_to_pre_pred(sample, text_encoder, retrieve_model, dataset_name,k):
+def raw_to_pre_pred(sample, text_encoder, retrieve_model, dataset_name,k, entity_identifier_file = None):
     
-    entity_identifier_file = f"/home/gridsan/mhadjiivanov/meng/SubgraphRAG/retrieve/data_files/{dataset_name}/entity_identifiers.txt"
     entity_identifiers = []
-    with open(entity_identifier_file, 'r') as f:
-        for line in f:
-            entity_identifiers.append(line.strip())
+    if entity_identifier_file is not None:
+        with open(entity_identifier_file, 'r') as f:
+            for line in f:
+                entity_identifiers.append(line.strip())
     entity_identifiers = set(entity_identifiers)
     
     sample = customEmbInferDataset(
