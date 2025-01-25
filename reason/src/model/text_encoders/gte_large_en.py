@@ -6,10 +6,11 @@ from transformers import AutoModel, AutoTokenizer
 class GTELargeEN:
     def __init__(self,
                  device,
-                 normalize=True):
+                 normalize=True,
+                 model_path = 'Alibaba-NLP/gte-large-en-v1.5'):
         self.device = device
         #model_path = 'Alibaba-NLP/gte-large-en-v1.5'
-        model_path = '/home/gridsan/mhadjiivanov/meng/SubgraphRAG/retrieve/src/model/text_encoders/hf_models/gte-large-en-v1.5'
+        #model_path = '/home/gridsan/mhadjiivanov/meng/SubgraphRAG/retrieve/src/model/text_encoders/hf_models/gte-large-en-v1.5'
         self.tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True)
         self.model = AutoModel.from_pretrained(
             model_path,
