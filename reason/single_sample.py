@@ -10,16 +10,16 @@ from src.dataset.retriever import customRetrieverDataset
 
 from preprocess.prepare_prompts import get_prompts_for_data
 from prompts import icl_user_prompt, icl_ass_prompt
+import os
 
 
 device = torch.device(f'cuda:0')
 
 #ENCODING MODULE
 
-def init_text_encoder(dataset_name):
+def init_text_encoder(dataset_name, config_dir):
     device = torch.device('cuda:0')
-    dataset_name = "webqsp"
-    config_file = f'../retrieve/configs/emb/gte-large-en-v1.5/{dataset_name}.yaml'
+    config_file = f'{config_dir}/{dataset_name}.yaml'
     config = load_yaml(config_file)
     torch.set_num_threads(config['env']['num_threads'])
 
